@@ -210,6 +210,14 @@ export function cancelTrainingMock(trainingId: string) {
   return updateTrainingMock(trainingId, { status: "cancelled" });
 }
 
+export function deleteTrainingMock(trainingId: string) {
+  const index = state.trainings.findIndex((item) => item.id === trainingId);
+  if (index < 0) return false;
+  state.trainings.splice(index, 1);
+  delete state.rosters[trainingId];
+  return true;
+}
+
 export function createTrainerMock(input: Omit<Trainer, "id">) {
   const trainer: Trainer = { ...input, id: randomUUID() };
   state.trainers.unshift(trainer);

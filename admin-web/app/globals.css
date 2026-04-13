@@ -480,7 +480,7 @@ textarea {
   .customer-topbar,
   .section-head,
   .page-header {
-    align-items: start;
+    align-items: flex-start;
     flex-direction: column;
   }
 
@@ -723,7 +723,7 @@ textarea {
 }
 
 .booking-row {
-  align-items: start;
+  align-items: flex-start;
 }
 
 .training-actions.stacked {
@@ -742,7 +742,7 @@ textarea {
   }
 
   .calendar-toolbar {
-    align-items: start;
+    align-items: flex-start;
     flex-direction: column;
   }
 }
@@ -763,4 +763,76 @@ textarea {
   .modal-training-nav {
     flex-direction: column;
   }
+}
+
+.admin-calendar-header {
+  margin-top: 12px;
+}
+
+.admin-calendar-grid {
+  margin-top: 0;
+}
+
+.admin-calendar-day {
+  min-height: 190px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.admin-calendar-training {
+  border: 1px solid rgba(18, 58, 51, 0.08);
+  border-radius: 16px;
+  padding: 10px 12px;
+  background: rgba(245, 248, 247, 0.96);
+}
+
+.admin-calendar-training-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-calendar-training-top strong {
+  line-height: 1.25;
+}
+
+.admin-calendar-day-header {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.calendar-add-button {
+  border: none;
+  border-radius: 12px;
+  padding: 7px 10px;
+  background: rgba(46, 122, 104, 0.12);
+  color: #1d5b4d;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.admin-calendar-training-button {
+  width: 100%;
+  border: 1px solid rgba(18, 58, 51, 0.08);
+  border-radius: 14px;
+  padding: 10px 12px;
+  background: rgba(245, 248, 247, 0.96);
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-calendar-training-button:hover {
+  border-color: rgba(46, 122, 104, 0.24);
+}
+
+.admin-training-modal {
+  width: min(100%, 760px);
+}
+
+.admin-modal-summary {
+  margin-top: 12px;
 }

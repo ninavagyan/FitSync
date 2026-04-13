@@ -206,6 +206,12 @@ export async function cancelTrainingPg(trainingId: string) {
   return updateTrainingPg(trainingId, { status: "cancelled" });
 }
 
+export async function deleteTrainingPg(trainingId: string) {
+  const pool = getPool();
+  const result = await pool.query(`delete from trainings where id = $1 and club_id = $2`, [trainingId, config.defaultClubId]);
+  return (result.rowCount ?? 0) > 0;
+}
+
 export async function listTrainersPg() {
   await ensureDefaultClub();
   const pool = getPool();

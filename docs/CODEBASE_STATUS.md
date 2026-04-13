@@ -36,9 +36,10 @@ Current status:
 - builds successfully with `npm run build`
 - supports customer landing page
 - supports customer login and registration
-- supports schedule browsing
-- supports booking and cancellation
-- supports bookings list
+- supports month-based schedule calendar
+- supports popup training details from the calendar
+- supports booking and cancellation from the popup
+- supports bookings list split into upcoming and history
 - uses a customer-specific browser session cookie
 
 Key files:
@@ -47,6 +48,7 @@ Key files:
 - [customer login](/Users/nina/Documents/Codex/FirstProject/admin-web/app/login/page.tsx)
 - [customer register](/Users/nina/Documents/Codex/FirstProject/admin-web/app/register/page.tsx)
 - [customer schedule](/Users/nina/Documents/Codex/FirstProject/admin-web/app/schedule/page.tsx)
+- [customer calendar component](/Users/nina/Documents/Codex/FirstProject/admin-web/components/customer-schedule-calendar.tsx)
 - [customer bookings](/Users/nina/Documents/Codex/FirstProject/admin-web/app/bookings/page.tsx)
 - [customer session helper](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/customer-web-session.ts)
 
@@ -59,6 +61,9 @@ Current status:
 - is designed to sit behind `admin.domain` in production
 - supports admin login and registration pages
 - supports trainers, customers, trainings, and settings management
+- supports interactive dashboard calendar with month navigation
+- supports per-day add training actions from the dashboard calendar
+- supports popup edit and remove actions for trainings
 - supports mock mode and PostgreSQL mode
 
 Key backend files:
@@ -67,6 +72,7 @@ Key backend files:
 - [postgres-service.ts](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/postgres-service.ts)
 - [admin-store.ts](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/admin-store.ts)
 - [middleware.ts](/Users/nina/Documents/Codex/FirstProject/admin-web/middleware.ts)
+- [admin calendar component](/Users/nina/Documents/Codex/FirstProject/admin-web/components/admin-dashboard-calendar.tsx)
 
 ## Verified now
 
@@ -75,6 +81,7 @@ Key backend files:
 - customer browser auth routes compile
 - customer browser booking routes compile
 - admin routes compile after route split
+- interactive admin dashboard calendar compiles
 
 ## Main limitations
 
@@ -86,4 +93,4 @@ Key backend files:
 
 ## Best next development step
 
-Add automated tests around booking and authentication, then decide whether to keep the Next.js server routes as the backend or extract a dedicated backend service.
+Add automated tests around booking, auth, and admin training mutation flows, then decide whether to keep the Next.js server routes as the backend or extract a dedicated backend service.
