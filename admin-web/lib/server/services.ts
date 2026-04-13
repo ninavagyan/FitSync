@@ -1,0 +1,80 @@
+import { isPostgresEnabled } from "@/lib/config";
+import {
+  bookTrainingForCustomerMock,
+  cancelTrainingBookingForCustomerMock,
+  cancelTrainingMock,
+  createAuthUserMock,
+  createCustomerMock,
+  createTrainerMock,
+  createTrainingMock,
+  findUserByIdMock,
+  getCustomerMock,
+  getDashboardMock,
+  getSettingsMock,
+  getTrainingRosterMock,
+  listAuthUsersMock,
+  listBookingsForCustomerMock,
+  listCustomersMock,
+  listTrainersMock,
+  listTrainingsMock,
+  listUpcomingTrainingsForCustomerMock,
+  updateSettingsMock,
+  updateTrainerMock,
+  updateTrainingMock,
+} from "@/lib/server/admin-store";
+import {
+  bookTrainingForCustomerPg,
+  cancelTrainingBookingForCustomerPg,
+  cancelTrainingPg,
+  createAuthUserPg,
+  createCustomerPg,
+  createTrainerPg,
+  createTrainingPg,
+  findUserByEmailPg,
+  findUserByIdPg,
+  getCustomerPg,
+  getDashboardPg,
+  getSettingsPg,
+  getTrainingRosterPg,
+  listBookingsForCustomerPg,
+  listCustomersPg,
+  listTrainersPg,
+  listTrainingsPg,
+  listUpcomingTrainingsForCustomerPg,
+  updateSettingsPg,
+  updateTrainerPg,
+  updateTrainingPg,
+} from "@/lib/server/postgres-service";
+
+export const adminService = {
+  getDashboard: () => (isPostgresEnabled() ? getDashboardPg() : Promise.resolve(getDashboardMock())),
+  listTrainings: () => (isPostgresEnabled() ? listTrainingsPg() : Promise.resolve(listTrainingsMock())),
+  createTraining: (input: any) => (isPostgresEnabled() ? createTrainingPg(input) : Promise.resolve(createTrainingMock(input))),
+  updateTraining: (id: string, input: any) => (isPostgresEnabled() ? updateTrainingPg(id, input) : Promise.resolve(updateTrainingMock(id, input))),
+  cancelTraining: (id: string) => (isPostgresEnabled() ? cancelTrainingPg(id) : Promise.resolve(cancelTrainingMock(id))),
+  listTrainers: () => (isPostgresEnabled() ? listTrainersPg() : Promise.resolve(listTrainersMock())),
+  createTrainer: (input: any) => (isPostgresEnabled() ? createTrainerPg(input) : Promise.resolve(createTrainerMock(input))),
+  updateTrainer: (id: string, input: any) => (isPostgresEnabled() ? updateTrainerPg(id, input) : Promise.resolve(updateTrainerMock(id, input))),
+  listCustomers: () => (isPostgresEnabled() ? listCustomersPg() : Promise.resolve(listCustomersMock())),
+  createCustomer: (input: any) => (isPostgresEnabled() ? createCustomerPg(input) : Promise.resolve(createCustomerMock(input))),
+  getCustomer: (id: string) => (isPostgresEnabled() ? getCustomerPg(id) : Promise.resolve(getCustomerMock(id))),
+  getSettings: () => (isPostgresEnabled() ? getSettingsPg() : Promise.resolve(getSettingsMock())),
+  updateSettings: (input: any) => (isPostgresEnabled() ? updateSettingsPg(input) : Promise.resolve(updateSettingsMock(input))),
+  getTrainingRoster: (id: string) => (isPostgresEnabled() ? getTrainingRosterPg(id) : Promise.resolve(getTrainingRosterMock(id))),
+  listUpcomingTrainingsForCustomer: (userId: string) => (isPostgresEnabled() ? listUpcomingTrainingsForCustomerPg(userId) : Promise.resolve(listUpcomingTrainingsForCustomerMock(userId))),
+  listBookingsForCustomer: (userId: string) => (isPostgresEnabled() ? listBookingsForCustomerPg(userId) : Promise.resolve(listBookingsForCustomerMock(userId))),
+  bookTrainingForCustomer: (trainingId: string, userId: string) => (isPostgresEnabled() ? bookTrainingForCustomerPg(trainingId, userId) : Promise.resolve(bookTrainingForCustomerMock(trainingId, userId))),
+  cancelTrainingBookingForCustomer: (trainingId: string, userId: string) => (isPostgresEnabled() ? cancelTrainingBookingForCustomerPg(trainingId, userId) : Promise.resolve(cancelTrainingBookingForCustomerMock(trainingId, userId))),
+  findUserByEmail: async (email: string) => {
+    if (isPostgresEnabled()) return findUserByEmailPg(email);
+    return listAuthUsersMock().find((user) => user.email === email) ?? null;
+  },
+  findUserById: async (userId: string) => {
+    if (isPostgresEnabled()) return findUserByIdPg(userId);
+    return findUserByIdMock(userId);
+  },
+  createAuthUser: async (input: any) => {
+    if (isPostgresEnabled()) return createAuthUserPg(input);
+    return createAuthUserMock(input);
+  },
+};

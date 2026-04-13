@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+
+# Gradle / Android
+.gradle/
+build/
+**/build/
+local.properties
+captures/
+*.iml
+
+# Kotlin
+.kotlin/
+
+# Android Studio / IntelliJ
+.idea/
+
+# Node / Next.js
+admin-web/node_modules/
+admin-web/.next/
+
+# Env files
+admin-web/.env.local
+admin-web/.env.*.local
+
+# Logs
+*.log
