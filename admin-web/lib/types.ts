@@ -34,7 +34,7 @@ export type Customer = {
   fullName: string;
   phone: string;
   email: string;
-  status: "active" | "inactive";
+  status: "active" | "inactive" | "pending";
   bookingsCount: number;
 };
 

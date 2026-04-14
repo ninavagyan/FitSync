@@ -27,5 +27,5 @@ export async function POST(request: Request) {
     email: String(formData.get("email") ?? ""),
     status: String(formData.get("status") ?? "active") === "inactive" ? "inactive" : "active",
   });
-  return NextResponse.redirect(toRequestUrl(request, "/customers"));
+  return NextResponse.redirect(toRequestUrl(request, "/admin/customers"));
 }

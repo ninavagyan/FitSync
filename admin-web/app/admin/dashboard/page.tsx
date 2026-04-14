@@ -177,14 +177,14 @@ export default async function DashboardPage({
             <p className="muted">{calendar.label} overview for club operations.</p>
           </div>
           <div className="calendar-nav">
-            <Link className="button secondary" href={`/admin/dashboard?month=${toMonthKey(previousMonth)}`}>
-              Previous month
+            <Link className="button secondary calendar-arrow-button" aria-label="Previous month" href={`/admin/dashboard?month=${toMonthKey(previousMonth)}`}>
+              ←
             </Link>
-            <Link className="button secondary" href={`/admin/dashboard?month=${toMonthKey(currentMonth)}`}>
-              Current month
+            <Link className="button secondary calendar-current-button" href={`/admin/dashboard?month=${toMonthKey(currentMonth)}`}>
+              Current
             </Link>
-            <Link className="button secondary" href={`/admin/dashboard?month=${toMonthKey(nextMonth)}`}>
-              Next month
+            <Link className="button secondary calendar-arrow-button" aria-label="Next month" href={`/admin/dashboard?month=${toMonthKey(nextMonth)}`}>
+              →
             </Link>
           </div>
         </div>

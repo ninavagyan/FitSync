@@ -49,6 +49,7 @@ Current behavior:
 
 - previous, current, and next month navigation
 - compact training labels inside day cells
+- long names truncated so the day cell stays readable
 - `Add` button on each day
 - click a training to open an admin popup
 - edit training details in the popup
@@ -76,6 +77,20 @@ Key files:
 
 - create customer
 - view customer details
+- confirm pending self-registered customers
+
+Pending customer approval flow:
+
+- customer self-registers from the customer app
+- account is stored in pending state
+- customer cannot log in until admin confirms
+- admin confirms from the customer directory using the `Confirm` action
+
+Key files:
+
+- [customers page](/Users/nina/Documents/Codex/FirstProject/admin-web/app/admin/customers/page.tsx)
+- [confirm route](/Users/nina/Documents/Codex/FirstProject/admin-web/app/api/v1/admin/customers/[customerId]/confirm/route.ts)
+- [postgres service](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/postgres-service.ts)
 
 ### Settings
 

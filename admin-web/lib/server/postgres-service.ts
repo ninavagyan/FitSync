@@ -59,7 +59,7 @@ function mapCustomer(row: any): Customer {
     fullName: row.full_name,
     phone: row.phone ?? "",
     email: row.email,
-    status: row.is_active ? "active" : "inactive",
+    status: row.is_active ? "active" : row.password_hash ? "pending" : "inactive",
     bookingsCount: Number(row.bookings_count ?? 0),
   };
 }
@@ -290,6 +290,18 @@ export async function createCustomerPg(input: Omit<Customer, "id" | "bookingsCou
   };
 }
 
+export async function confirmCustomerPg(customerId: string) {
+  const pool = getPool();
+  await pool.query(
+    `update users
+     set is_active = true,
+         updated_at = now()
+     where id = $1 and club_id = $2 and role = 'customer'`,
+    [customerId, config.defaultClubId],
+  );
+  return getCustomerPg(customerId);
+}
+
 export async function getCustomerPg(customerId: string) {
   const pool = getPool();
   const result = await pool.query(
@@ -377,6 +389,7 @@ export async function createAuthUserPg(input: {
   phone?: string;
   role: UserRole;
   passwordHash: string;
+  isActive?: boolean;
 }) {
   await ensureDefaultClub();
   const pool = getPool();
@@ -384,7 +397,7 @@ export async function createAuthUserPg(input: {
   await pool.query(
     `insert into users (id, club_id, email, full_name, phone, role, is_active, password_hash)
      values ($1,$2,$3,$4,$5,$6,true,$7)`,
-    [id, config.defaultClubId, input.email, input.fullName, input.phone ?? null, input.role, input.passwordHash],
+    [id, config.defaultClubId, input.email, input.fullName, input.phone ?? null, input.role, input.isActive ?? true, input.passwordHash],
   );
   return {
     id,

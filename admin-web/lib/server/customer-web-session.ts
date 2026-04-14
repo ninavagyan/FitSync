@@ -32,7 +32,7 @@ export async function getCurrentCustomerUser(): Promise<AuthUser | null> {
   }
 
   const user = await adminService.findUserById(payload.userId);
-  if (!user) {
+  if (!user || user.role !== "customer" || (user.is_active ?? user.isActive) === false) {
     return null;
   }
 

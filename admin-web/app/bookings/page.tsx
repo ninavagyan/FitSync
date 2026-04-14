@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StatusBadge } from "@/components/status-badge";
 import { requireCustomerUser } from "@/lib/server/customer-web-session";
 import { adminService } from "@/lib/server/services";
 import type { CustomerBooking } from "@/lib/types";
@@ -84,7 +85,7 @@ export default async function BookingsPage({
               <article key={booking.bookingId} className="training-row booking-row">
                 <div>
                   <div className="training-meta">
-                    <span className="badge">active</span>
+                    <StatusBadge value="active" />
                   </div>
                   <h3>{booking.trainingName}</h3>
                   <p className="training-detail">{formatDate(booking.startAt)} to {formatDate(booking.endAt)}</p>
@@ -124,9 +125,7 @@ export default async function BookingsPage({
               <article key={booking.bookingId} className="training-row booking-row compact-history">
                 <div>
                   <div className="training-meta">
-                    <span className={`badge ${booking.status === "cancelled" ? "danger" : "neutral"}`.trim()}>
-                      {booking.status}
-                    </span>
+                    <StatusBadge value={booking.status} />
                   </div>
                   <h3>{booking.trainingName}</h3>
                   <p className="training-detail">{formatDate(booking.startAt)} to {formatDate(booking.endAt)}</p>

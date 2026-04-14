@@ -24,7 +24,7 @@ export default async function CustomersPage() {
         <div className="card">
           <h3>Customer directory</h3>
           <table className="table" style={{ marginTop: 12 }}>
-            <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Bookings</th><th>Status</th></tr></thead>
+            <thead><tr><th>Name</th><th>Phone</th><th>Email</th><th>Bookings</th><th>Status</th><th>Action</th></tr></thead>
             <tbody>
               {customers.map((customer) => (
                 <tr key={customer.id}>
@@ -33,6 +33,15 @@ export default async function CustomersPage() {
                   <td>{customer.email}</td>
                   <td>{customer.bookingsCount}</td>
                   <td><StatusBadge value={customer.status} /></td>
+                  <td>
+                    {customer.status === "pending" ? (
+                      <form method="post" action={`/api/v1/admin/customers/${customer.id}/confirm`}>
+                        <button className="button primary" type="submit">Confirm</button>
+                      </form>
+                    ) : (
+                      <span className="muted">-</span>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

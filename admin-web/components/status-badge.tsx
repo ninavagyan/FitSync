@@ -1,12 +1,21 @@
-export function StatusBadge({ value }: { value: string }) {
-  const className =
-    value === "scheduled" || value === "active"
-      ? "badge"
-      : value === "full"
-        ? "badge warning"
-        : value === "cancelled" || value === "inactive"
-          ? "badge danger"
-          : "badge neutral";
+const statusClassByValue: Record<string, string> = {
+  scheduled: "info",
+  active: "success",
+  full: "warning",
+  pending: "warning",
+  cancelled: "danger",
+  inactive: "danger",
+  expired: "neutral-dark",
+  draft: "neutral",
+  attended: "success",
+  missed: "danger",
+};
 
-  return <span className={className}>{value.replaceAll("_", " ")}</span>;
+export function getStatusBadgeClass(value: string) {
+  const variant = statusClassByValue[value] ?? "neutral";
+  return `badge ${variant}`;
+}
+
+export function StatusBadge({ value }: { value: string }) {
+  return <span className={getStatusBadgeClass(value)}>{value.replaceAll("_", " ")}</span>;
 }

@@ -3,7 +3,6 @@ import { z } from "zod";
 import { config } from "@/lib/config";
 import { registerUser } from "@/lib/server/auth-service";
 import { toRequestUrl } from "@/lib/server/request-url";
-import { setCustomerSession } from "@/lib/server/customer-web-session";
 
 const schema = z.object({
   fullName: z.string().min(2),
@@ -32,15 +31,17 @@ export async function POST(request: Request) {
   }
 
   try {
-    const user = await registerUser({
+    await registerUser({
       email: parsed.data.email,
       fullName: parsed.data.fullName,
       phone: parsed.data.phone,
       password: parsed.data.password,
       role: "customer",
+      isActive: false,
     });
-    await setCustomerSession(user);
-    return NextResponse.redirect(toRequestUrl(request, "/schedule"));
+    return NextResponse.redirect(
+      toRequestUrl(request, "/login?success=" + encodeURIComponent("Registration received. Wait for admin approval before login.")),
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : "Registration failed.";
     return NextResponse.redirect(toRequestUrl(request, "/register?error=" + encodeURIComponent(message)));

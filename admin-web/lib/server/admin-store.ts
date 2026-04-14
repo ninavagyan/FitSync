@@ -13,6 +13,7 @@ type BookingRosterItem = {
 
 type StoredUser = AuthUser & {
   passwordHash: string;
+  isActive?: boolean;
 };
 
 type AdminState = {
@@ -60,6 +61,7 @@ const state: AdminState = globalThis.__clubflowAdminState ?? {
       phone: "+374 91 000 001",
       clubId: "00000000-0000-0000-0000-000000000001",
       passwordHash: hashSync("admin1234", 10),
+      isActive: true,
     },
     {
       id: "cu_001",
@@ -69,6 +71,7 @@ const state: AdminState = globalThis.__clubflowAdminState ?? {
       phone: "+374 93 111 222",
       clubId: "00000000-0000-0000-0000-000000000001",
       passwordHash: hashSync("customer123", 10),
+      isActive: true,
     },
   ],
 };
@@ -244,6 +247,17 @@ export function getCustomerMock(customerId: string) {
   return state.customers.find((item) => item.id === customerId) ?? null;
 }
 
+export function confirmCustomerMock(customerId: string) {
+  const index = state.customers.findIndex((item) => item.id === customerId);
+  if (index < 0) return null;
+  state.customers[index] = { ...state.customers[index], status: "active" };
+  const userIndex = state.users.findIndex((item) => item.id === customerId);
+  if (userIndex >= 0) {
+    state.users[userIndex] = { ...state.users[userIndex], isActive: true };
+  }
+  return state.customers[index];
+}
+
 export function updateSettingsMock(input: Partial<ClubSettings>) {
   state.settings = { ...state.settings, ...input };
   return state.settings;
@@ -257,7 +271,7 @@ export function findUserByIdMock(userId: string) {
   return getUserRecord(userId);
 }
 
-export function createAuthUserMock(user: StoredUser) {
+export function createAuthUserMock(user: StoredUser & { isActive?: boolean }) {
   state.users.unshift(user);
   if (user.role === "customer" && getCustomerRecord(user.id) === null) {
     state.customers.unshift({

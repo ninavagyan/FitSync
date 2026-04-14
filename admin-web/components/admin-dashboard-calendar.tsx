@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { getStatusBadgeClass } from "@/components/status-badge";
 import type { Trainer, Training } from "@/lib/types";
 
 type CalendarCell = {
@@ -180,7 +181,7 @@ export function AdminDashboardCalendar({ calendar, trainers }: Props) {
             ) : (
               <div className="calendar-trainings">
                 {cell.trainings.map((training) => (
-                  <button key={training.id} type="button" className="admin-calendar-training-button" onClick={() => openEdit(training)}>
+                  <button key={training.id} type="button" className={`admin-calendar-training-button status-card status-${training.status}`.trim()} onClick={() => openEdit(training)}>
                     {training.name}
                   </button>
                 ))}

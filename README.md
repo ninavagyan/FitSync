@@ -13,7 +13,7 @@ Implemented now:
 
 - Android app with customer login and registration screens
 - Android app wired to authenticated customer APIs for upcoming trainings, booking, and cancellation
-- customer web app with login, registration, month calendar schedule, popup booking flow, and bookings pages
+- customer web app with login, registration, month calendar schedule, popup booking flow, bookings pages, and admin approval gate for new customers
 - admin web app with dashboard, trainings, trainers, customers, and settings pages
 - admin dashboard calendar with month navigation, add-on-day actions, and popup training editing/removal
 - local authentication flow for admin, customer web, and customer APIs
@@ -69,15 +69,13 @@ env JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home ./gradl
 Optional override examples:
 
 ```bash
-env JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home \
-  ./gradlew assembleDevDebug -Pclubflow.baseUrl.dev=http://192.168.1.50:3000/
+env JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home   ./gradlew assembleDevDebug -Pclubflow.baseUrl.dev=http://192.168.1.50:3000/
 ```
 
 or
 
 ```bash
-CLUBFLOW_BASE_URL_DEV=http://192.168.1.50:3000/ \
-env JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home ./gradlew assembleDevDebug
+CLUBFLOW_BASE_URL_DEV=http://192.168.1.50:3000/ env JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home ./gradlew assembleDevDebug
 ```
 
 Use `10.0.2.2` for the Android emulator. Use your Mac's LAN IP for a physical phone.

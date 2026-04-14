@@ -28,13 +28,34 @@ Supporting form routes:
 
 - browse upcoming trainings
 - register a customer account
-- sign in as customer
+- sign in as customer after admin approval
 - navigate schedule by month
 - open a training popup from the calendar
 - book available trainings from the popup
 - cancel active bookings
 - review upcoming and historical bookings
 - log out
+
+## Registration and approval flow
+
+Customer self-registration is not auto-approved anymore.
+
+Current behavior:
+
+- customer submits the register form
+- backend creates the account in pending state
+- customer is redirected to login with a wait-for-approval message
+- customer login is blocked until the account is confirmed by admin
+- admin confirms the customer from the admin customer directory
+- after confirmation, the customer can log in normally
+
+Main files:
+
+- [register route](/Users/nina/Documents/Codex/FirstProject/admin-web/app/api/site/auth/register/route.ts)
+- [login route](/Users/nina/Documents/Codex/FirstProject/admin-web/app/api/site/auth/login/route.ts)
+- [auth service](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/auth-service.ts)
+- [customer session helper](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/customer-web-session.ts)
+- [customer auth guard](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/customer-auth.ts)
 
 ## Current schedule experience
 
@@ -44,11 +65,15 @@ Current behavior:
 
 - monthly calendar view
 - previous, current, and next month navigation
-- day cells with scheduled trainings
+- day cells with scheduled trainings only
+- draft trainings hidden from the customer surface
 - popup training details instead of inline expansion
 - booking and cancellation actions inside the popup
+- booking button disabled unless the training is `scheduled`
+- short action labels in the popup: `Book`, `Cancel`, `Login`, `Back`, `Prev`, `Next`
 - current month state preserved after booking and cancellation
 - keyboard close support with `Esc`
+- long training names truncated so day cells keep their layout
 
 Main files for this flow:
 
@@ -91,6 +116,7 @@ Current cookie purpose:
 - identify the signed-in customer for the browser app
 - keep admin and customer sessions separated
 - let customer booking forms post without client-side token handling
+- reject inactive or pending customers before they can use protected customer pages
 
 Current cookie config source:
 

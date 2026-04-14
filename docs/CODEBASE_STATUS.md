@@ -36,9 +36,13 @@ Current status:
 - builds successfully with `npm run build`
 - supports customer landing page
 - supports customer login and registration
+- requires admin approval before a newly registered customer can log in
 - supports month-based schedule calendar
 - supports popup training details from the calendar
 - supports booking and cancellation from the popup
+- hides draft trainings from the customer schedule
+- disables booking unless the training status is `scheduled`
+- uses short popup action labels to keep buttons compact
 - supports bookings list split into upcoming and history
 - uses a customer-specific browser session cookie
 
@@ -64,6 +68,7 @@ Current status:
 - supports interactive dashboard calendar with month navigation
 - supports per-day add training actions from the dashboard calendar
 - supports popup edit and remove actions for trainings
+- supports pending customer approval from the customer directory
 - supports mock mode and PostgreSQL mode
 
 Key backend files:
@@ -82,6 +87,7 @@ Key backend files:
 - customer browser booking routes compile
 - admin routes compile after route split
 - interactive admin dashboard calendar compiles
+- customer approval flow compiles and the admin confirm route is present
 
 ## Main limitations
 
@@ -93,4 +99,4 @@ Key backend files:
 
 ## Best next development step
 
-Add automated tests around booking, auth, and admin training mutation flows, then decide whether to keep the Next.js server routes as the backend or extract a dedicated backend service.
+Add automated tests around booking, customer approval, auth, and admin training mutation flows, then decide whether to keep the Next.js server routes as the backend or extract a dedicated backend service.

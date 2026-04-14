@@ -9,6 +9,7 @@ export async function registerUser(input: {
   password: string;
   phone?: string;
   role: UserRole;
+  isActive?: boolean;
 }): Promise<AuthUser> {
   const existing = await adminService.findUserByEmail(input.email);
   if (existing) {
@@ -24,6 +25,7 @@ export async function registerUser(input: {
     role: input.role,
     clubId: "00000000-0000-0000-0000-000000000001",
     passwordHash,
+    isActive: input.isActive ?? true,
   });
 }
 
@@ -37,6 +39,14 @@ export async function loginUser(input: { email: string; password: string }): Pro
   const valid = await bcrypt.compare(input.password, passwordHash);
   if (!valid) {
     throw new Error("Invalid email or password.");
+  }
+
+  const isActive = user.is_active ?? user.isActive;
+  if (isActive === false) {
+    if (user.role === "customer") {
+      throw new Error("Your account is pending admin approval.");
+    }
+    throw new Error("This account is inactive.");
   }
 
   return {

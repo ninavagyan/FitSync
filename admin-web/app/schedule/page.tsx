@@ -119,12 +119,13 @@ export default async function SchedulePage({
 }) {
   const params = await searchParams;
   const user = await getCurrentCustomerUser();
-  const trainings = user
+  const trainings = (user
     ? await adminService.listUpcomingTrainingsForCustomer(user.id)
     : (await adminService.listTrainings())
         .filter((training) => ["scheduled", "full"].includes(training.status))
         .filter((training) => new Date(training.endAt).getTime() > Date.now())
-        .map((training) => ({ ...training, isUserBooked: false }));
+        .map((training) => ({ ...training, isUserBooked: false })))
+    .filter((training) => training.status !== "draft");
 
   const trainingsByDay = trainings.reduce<Record<string, CustomerTraining[]>>((acc, training) => {
     const key = toDateKey(training.startAt);
@@ -181,14 +182,14 @@ export default async function SchedulePage({
             <h3>{month.label}</h3>
           </div>
           <div className="calendar-nav">
-            <Link className="button secondary" href={`/schedule?month=${toMonthKey(previousMonth)}`}>
-              Previous month
+            <Link className="button secondary calendar-arrow-button" aria-label="Previous month" href={`/schedule?month=${toMonthKey(previousMonth)}`}>
+              ←
             </Link>
-            <Link className="button secondary" href={`/schedule?month=${toMonthKey(startOfMonth(new Date()))}`}>
-              Current month
+            <Link className="button secondary calendar-current-button" href={`/schedule?month=${toMonthKey(startOfMonth(new Date()))}`}>
+              Current
             </Link>
-            <Link className="button secondary" href={`/schedule?month=${toMonthKey(nextMonth)}`}>
-              Next month
+            <Link className="button secondary calendar-arrow-button" aria-label="Next month" href={`/schedule?month=${toMonthKey(nextMonth)}`}>
+              →
             </Link>
           </div>
         </div>

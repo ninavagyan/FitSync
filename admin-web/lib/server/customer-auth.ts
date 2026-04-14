@@ -15,5 +15,8 @@ export async function resolveCustomerApiUser(request: Request) {
   if (user === null) {
     return { error: NextResponse.json({ error: { code: "unauthorized", message: "User was not found." } }, { status: 401 }) };
   }
+  if (user.role !== "customer" || (user.is_active ?? user.isActive) === false) {
+    return { error: NextResponse.json({ error: { code: "unauthorized", message: "Customer account is not active." } }, { status: 401 }) };
+  }
   return { user };
 }

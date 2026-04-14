@@ -13,7 +13,7 @@ export default async function CustomerRegisterPage({
       <div className="auth-card customer-auth-card wide">
         <span className="eyebrow">{config.defaultClubName}</span>
         <h2>Create customer account</h2>
-        <p className="muted">Register once and keep booking from your phone or browser.</p>
+        <p className="muted">Register once. Your account will stay pending until the club admin confirms it.</p>
         {params.error ? <p className="badge danger">{decodeURIComponent(params.error)}</p> : null}
         <form method="post" action="/api/site/auth/register">
           <div className="form-grid" style={{ marginTop: 16 }}>

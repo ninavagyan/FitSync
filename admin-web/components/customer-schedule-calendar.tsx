@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { getStatusBadgeClass } from "@/components/status-badge";
 import type { CustomerTraining } from "@/lib/types";
 
 type CalendarCell = {
@@ -115,7 +116,7 @@ export function CustomerScheduleCalendar({ month, activeMonthKey, userLoggedIn, 
                   <button
                     key={training.id}
                     type="button"
-                    className="calendar-training-button"
+                    className={`calendar-training-button status-card ${selectedTrainingId === training.id ? "selected" : ""} status-${training.status}`.trim()}
                     onClick={() => setSelectedTrainingId(training.id)}
                   >
                     <span className="calendar-training-time">{formatTimeRange(training.startAt, training.endAt)}</span>
@@ -144,9 +145,7 @@ export function CustomerScheduleCalendar({ month, activeMonthKey, userLoggedIn, 
 
             <div className="training-meta">
               <span className="badge neutral">{selectedTraining.category.replaceAll("_", " ")}</span>
-              <span className={`badge ${selectedTraining.status === "full" ? "warning" : selectedTraining.status === "cancelled" ? "danger" : ""}`.trim()}>
-                {selectedTraining.status}
-              </span>
+              <span className={getStatusBadgeClass(selectedTraining.status)}>{selectedTraining.status}</span>
               {selectedTraining.isUserBooked ? <span className="badge">Booked</span> : null}
             </div>
 
@@ -161,19 +160,19 @@ export function CustomerScheduleCalendar({ month, activeMonthKey, userLoggedIn, 
                 selectedTraining.isUserBooked ? (
                   <form method="post" action={`/api/site/trainings/${selectedTraining.id}/cancel`}>
                     <input type="hidden" name="redirectTo" value={`/schedule?month=${activeMonthKey}`} />
-                    <button className="button secondary" type="submit" disabled={!canCancel}>Cancel booking</button>
+                    <button className="button secondary" type="submit" disabled={!canCancel}>Cancel</button>
                   </form>
                 ) : (
                   <form method="post" action={`/api/site/trainings/${selectedTraining.id}/book`}>
                     <input type="hidden" name="redirectTo" value={`/schedule?month=${activeMonthKey}`} />
-                    <button className="button primary" type="submit" disabled={!isBookable}>Book this training</button>
+                    <button className="button primary" type="submit" disabled={!isBookable}>Book</button>
                   </form>
                 )
               ) : (
-                <Link className="button primary" href={loginRedirectHref}>Login to book</Link>
+                <Link className="button primary" href={loginRedirectHref}>Login</Link>
               )}
               <button type="button" className="button secondary" onClick={() => setSelectedTrainingId(null)}>
-                Back to calendar
+                Back
               </button>
             </div>
 
@@ -184,7 +183,7 @@ export function CustomerScheduleCalendar({ month, activeMonthKey, userLoggedIn, 
                 onClick={() => selectedIndex > 0 && setSelectedTrainingId(monthTrainings[selectedIndex - 1].id)}
                 disabled={selectedIndex <= 0}
               >
-                Previous training
+                Prev
               </button>
               <button
                 type="button"
@@ -192,7 +191,7 @@ export function CustomerScheduleCalendar({ month, activeMonthKey, userLoggedIn, 
                 onClick={() => selectedIndex < monthTrainings.length - 1 && setSelectedTrainingId(monthTrainings[selectedIndex + 1].id)}
                 disabled={selectedIndex < 0 || selectedIndex >= monthTrainings.length - 1}
               >
-                Next training
+                Next
               </button>
             </div>
           </div>

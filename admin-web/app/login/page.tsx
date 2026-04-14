@@ -4,7 +4,7 @@ import { config } from "@/lib/config";
 export default async function CustomerLoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ redirect?: string; error?: string }>;
+  searchParams: Promise<{ redirect?: string; error?: string; success?: string }>;
 }) {
   const params = await searchParams;
   const redirect = params.redirect ?? "/schedule";
@@ -16,6 +16,7 @@ export default async function CustomerLoginPage({
         <h2>Customer login</h2>
         <p className="muted">Access your bookings, cancel before cutoff, and reserve upcoming classes.</p>
         {params.error ? <p className="badge danger">{decodeURIComponent(params.error)}</p> : null}
+        {params.success ? <p className="badge success">{decodeURIComponent(params.success)}</p> : null}
         <form method="post" action="/api/site/auth/login">
           <input type="hidden" name="redirect" value={redirect} />
           <div className="form-grid" style={{ marginTop: 16 }}>
