@@ -911,3 +911,41 @@ textarea {
 .calendar-training-button {
   overflow: hidden;
 }
+
+.inline-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.danger-action {
+  border-color: #c2410c;
+  color: #9a3412;
+}
+
+.danger-action:hover {
+  background: #fff7ed;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.customer-table {
+  min-width: 860px;
+}
+
+.compact-actions {
+  gap: 6px;
+}
+
+.compact-actions .button {
+  padding: 6px 10px;
+  min-height: auto;
+  font-size: 0.86rem;
+}
+
+.admin-confirm-modal {
+  max-width: 520px;
+}

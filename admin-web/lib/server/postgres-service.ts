@@ -290,12 +290,44 @@ export async function createCustomerPg(input: Omit<Customer, "id" | "bookingsCou
   };
 }
 
+export async function updateCustomerPg(customerId: string, input: Partial<Customer>) {
+  const pool = getPool();
+  const current = await getCustomerPg(customerId);
+  if (!current) return null;
+  const nextStatus = input.status ?? current.status;
+  await pool.query(
+    `update users
+     set full_name = $2,
+         phone = $3,
+         email = $4,
+         is_active = $5
+     where id = $1 and club_id = $6 and role = 'customer'`,
+    [
+      customerId,
+      input.fullName ?? current.fullName,
+      input.phone ?? current.phone,
+      input.email ?? current.email,
+      nextStatus === "active",
+      config.defaultClubId,
+    ],
+  );
+  return getCustomerPg(customerId);
+}
+
+export async function deleteCustomerPg(customerId: string) {
+  const pool = getPool();
+  const result = await pool.query(
+    `delete from users where id = $1 and club_id = $2 and role = 'customer'`,
+    [customerId, config.defaultClubId],
+  );
+  return (result.rowCount ?? 0) > 0;
+}
+
 export async function confirmCustomerPg(customerId: string) {
   const pool = getPool();
   await pool.query(
     `update users
-     set is_active = true,
-         updated_at = now()
+     set is_active = true
      where id = $1 and club_id = $2 and role = 'customer'`,
     [customerId, config.defaultClubId],
   );
@@ -396,7 +428,7 @@ export async function createAuthUserPg(input: {
   const id = randomUUID();
   await pool.query(
     `insert into users (id, club_id, email, full_name, phone, role, is_active, password_hash)
-     values ($1,$2,$3,$4,$5,$6,true,$7)`,
+     values ($1,$2,$3,$4,$5,$6,$7,$8)`,
     [id, config.defaultClubId, input.email, input.fullName, input.phone ?? null, input.role, input.isActive ?? true, input.passwordHash],
   );
   return {

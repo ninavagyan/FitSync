@@ -46,16 +46,6 @@ Current status:
 - supports bookings list split into upcoming and history
 - uses a customer-specific browser session cookie
 
-Key files:
-
-- [customer home](/Users/nina/Documents/Codex/FirstProject/admin-web/app/page.tsx)
-- [customer login](/Users/nina/Documents/Codex/FirstProject/admin-web/app/login/page.tsx)
-- [customer register](/Users/nina/Documents/Codex/FirstProject/admin-web/app/register/page.tsx)
-- [customer schedule](/Users/nina/Documents/Codex/FirstProject/admin-web/app/schedule/page.tsx)
-- [customer calendar component](/Users/nina/Documents/Codex/FirstProject/admin-web/components/customer-schedule-calendar.tsx)
-- [customer bookings](/Users/nina/Documents/Codex/FirstProject/admin-web/app/bookings/page.tsx)
-- [customer session helper](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/customer-web-session.ts)
-
 ## Admin web app
 
 Current status:
@@ -69,6 +59,9 @@ Current status:
 - supports per-day add training actions from the dashboard calendar
 - supports popup edit and remove actions for trainings
 - supports pending customer approval from the customer directory
+- supports customer table-first management flow
+- supports customer edit, deactivate, and delete actions
+- uses an in-app confirmation modal for customer confirmation instead of redirecting to an API page
 - supports mock mode and PostgreSQL mode
 
 Key backend files:
@@ -78,6 +71,7 @@ Key backend files:
 - [admin-store.ts](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/admin-store.ts)
 - [middleware.ts](/Users/nina/Documents/Codex/FirstProject/admin-web/middleware.ts)
 - [admin calendar component](/Users/nina/Documents/Codex/FirstProject/admin-web/components/admin-dashboard-calendar.tsx)
+- [admin confirm modal](/Users/nina/Documents/Codex/FirstProject/admin-web/components/admin-confirm-button.tsx)
 
 ## Verified now
 
@@ -87,7 +81,8 @@ Key backend files:
 - customer browser booking routes compile
 - admin routes compile after route split
 - interactive admin dashboard calendar compiles
-- customer approval flow compiles and the admin confirm route is present
+- customer approval flow compiles and works against PostgreSQL
+- PostgreSQL customer confirm/update queries no longer reference a missing `users.updated_at` column
 
 ## Main limitations
 
@@ -99,4 +94,4 @@ Key backend files:
 
 ## Best next development step
 
-Add automated tests around booking, customer approval, auth, and admin training mutation flows, then decide whether to keep the Next.js server routes as the backend or extract a dedicated backend service.
+Add automated tests around booking, customer approval, customer management actions, auth, and admin training mutation flows, then decide whether to keep the Next.js server routes as the backend or extract a dedicated backend service.

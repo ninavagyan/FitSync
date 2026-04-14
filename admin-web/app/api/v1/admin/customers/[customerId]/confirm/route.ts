@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
-import { toRequestUrl } from "@/lib/server/request-url";
 import { adminService } from "@/lib/server/services";
 
 export async function POST(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ customerId: string }> },
 ) {
   const { customerId } = await params;
-  await adminService.confirmCustomer(customerId);
-  return NextResponse.redirect(toRequestUrl(request, "/admin/customers"));
+  const customer = await adminService.confirmCustomer(customerId);
+  if (!customer) {
+    return NextResponse.json({ error: { code: "not_found", message: "Customer not found." } }, { status: 404 });
+  }
+  return NextResponse.json({ ok: true, customer });
 }

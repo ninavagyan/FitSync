@@ -24,7 +24,7 @@ Production intent:
 - Next.js App Router
 - TypeScript
 - server-rendered pages
-- client-side interactive calendar component where needed
+- client-side interactive components where needed
 - route handlers for form actions and APIs
 - PostgreSQL via `pg`
 - `bcryptjs` for current local password hashing
@@ -75,22 +75,42 @@ Key files:
 
 ### Customers
 
-- create customer
-- view customer details
-- confirm pending self-registered customers
+The customers area now uses a table-first management flow.
+
+Current behavior:
+
+- customer table is shown first
+- compact action buttons fit inside the table row
+- add-customer form is placed below the table
+- each row supports `Edit`
+- pending rows support `Confirm`
+- customer detail page supports profile editing
+- customer detail page supports status updates
+- customer detail page supports `Deactivate`
+- customer detail page supports `Delete`
 
 Pending customer approval flow:
 
 - customer self-registers from the customer app
 - account is stored in pending state
 - customer cannot log in until admin confirms
-- admin confirms from the customer directory using the `Confirm` action
+- admin clicks `Confirm`
+- admin sees an in-app modal, not a browser redirect or API page
+- confirmation is sent with `fetch` and the current page refreshes in place
 
 Key files:
 
 - [customers page](/Users/nina/Documents/Codex/FirstProject/admin-web/app/admin/customers/page.tsx)
+- [customer detail page](/Users/nina/Documents/Codex/FirstProject/admin-web/app/admin/customers/[customerId]/page.tsx)
+- [confirm button modal](/Users/nina/Documents/Codex/FirstProject/admin-web/components/admin-confirm-button.tsx)
+- [customer route](/Users/nina/Documents/Codex/FirstProject/admin-web/app/api/v1/admin/customers/[customerId]/route.ts)
 - [confirm route](/Users/nina/Documents/Codex/FirstProject/admin-web/app/api/v1/admin/customers/[customerId]/confirm/route.ts)
 - [postgres service](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/postgres-service.ts)
+
+Important implementation note:
+
+- the PostgreSQL `users` table does not have `updated_at`
+- customer confirm/update queries were adjusted to avoid writing a non-existent column
 
 ### Settings
 
@@ -126,8 +146,8 @@ Key files:
 
 ## Recommended next admin improvements
 
-1. Add bookings roster access directly from the calendar popup.
-2. Add conflict checks for overlapping trainer sessions.
-3. Add pagination, search, and filters.
+1. Add customer search and filters in the table.
+2. Add bookings roster access directly from the calendar popup.
+3. Add conflict checks for overlapping trainer sessions.
 4. Add audit fields and activity log.
 5. Replace simple cookie session approach with stronger auth/session management.

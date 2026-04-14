@@ -247,6 +247,38 @@ export function getCustomerMock(customerId: string) {
   return state.customers.find((item) => item.id === customerId) ?? null;
 }
 
+export function updateCustomerMock(customerId: string, input: Partial<Customer>) {
+  const index = state.customers.findIndex((item) => item.id === customerId);
+  if (index < 0) return null;
+  state.customers[index] = { ...state.customers[index], ...input, id: customerId, bookingsCount: state.customers[index].bookingsCount };
+  const userIndex = state.users.findIndex((item) => item.id === customerId);
+  if (userIndex >= 0) {
+    state.users[userIndex] = {
+      ...state.users[userIndex],
+      fullName: input.fullName ?? state.users[userIndex].fullName,
+      phone: input.phone ?? state.users[userIndex].phone,
+      email: input.email ?? state.users[userIndex].email,
+      isActive: input.status ? input.status === "active" : (state.users[userIndex].isActive ?? true),
+    };
+  }
+  return state.customers[index];
+}
+
+export function deleteCustomerMock(customerId: string) {
+  const customerIndex = state.customers.findIndex((item) => item.id === customerId);
+  if (customerIndex < 0) return false;
+  state.customers.splice(customerIndex, 1);
+  const userIndex = state.users.findIndex((item) => item.id === customerId);
+  if (userIndex >= 0) {
+    state.users.splice(userIndex, 1);
+  }
+  for (const [trainingId, roster] of Object.entries(state.rosters)) {
+    state.rosters[trainingId] = roster.filter((item) => item.customerId !== customerId);
+    updateTrainingCounts(trainingId);
+  }
+  return true;
+}
+
 export function confirmCustomerMock(customerId: string) {
   const index = state.customers.findIndex((item) => item.id === customerId);
   if (index < 0) return null;
