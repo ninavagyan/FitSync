@@ -24,6 +24,7 @@ Production intent:
 - Next.js App Router
 - TypeScript
 - server-rendered pages
+- client-side interactive calendar component where needed
 - route handlers for form actions and APIs
 - PostgreSQL via `pg`
 - `bcryptjs` for current local password hashing
@@ -40,11 +41,30 @@ The service switch is centralized in [services.ts](/Users/nina/Documents/Codex/F
 
 ## What staff can do now
 
+### Dashboard calendar
+
+The admin dashboard now includes a calendar operations view.
+
+Current behavior:
+
+- previous, current, and next month navigation
+- compact training labels inside day cells
+- `Add` button on each day
+- click a training to open an admin popup
+- edit training details in the popup
+- remove training in the popup
+
+Key files:
+
+- [dashboard](/Users/nina/Documents/Codex/FirstProject/admin-web/app/admin/dashboard/page.tsx)
+- [admin calendar component](/Users/nina/Documents/Codex/FirstProject/admin-web/components/admin-dashboard-calendar.tsx)
+
 ### Trainings
 
 - create training
 - update training
 - cancel training
+- remove training
 - view roster
 
 ### Trainers
@@ -83,7 +103,7 @@ Key files:
 
 ## Important limitations
 
-- forms are basic and server-rendered, not polished yet
+- forms are still basic and not deeply validated on the client
 - auth is local, not production-grade
 - permissions are role-gated at middleware level, not fine-grained per action yet
 - no attendance, reporting, payments, or memberships yet
@@ -91,8 +111,8 @@ Key files:
 
 ## Recommended next admin improvements
 
-1. Add edit forms with better validation feedback.
-2. Add action-level permission checks.
+1. Add bookings roster access directly from the calendar popup.
+2. Add conflict checks for overlapping trainer sessions.
 3. Add pagination, search, and filters.
 4. Add audit fields and activity log.
 5. Replace simple cookie session approach with stronger auth/session management.

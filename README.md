@@ -13,8 +13,9 @@ Implemented now:
 
 - Android app with customer login and registration screens
 - Android app wired to authenticated customer APIs for upcoming trainings, booking, and cancellation
-- customer web app with login, registration, schedule, and booking pages
+- customer web app with login, registration, month calendar schedule, popup booking flow, and bookings pages
 - admin web app with dashboard, trainings, trainers, customers, and settings pages
+- admin dashboard calendar with month navigation, add-on-day actions, and popup training editing/removal
 - local authentication flow for admin, customer web, and customer APIs
 - PostgreSQL integration path for the admin and customer backend layer
 - mock fallback mode for development without a database
@@ -105,7 +106,7 @@ Use `10.0.2.2` for the Android emulator. Use your Mac's LAN IP for a physical ph
 
 ## Immediate next steps
 
-1. Add automated tests for booking and auth flows.
+1. Add automated tests for booking, admin mutations, and auth flows.
 2. Introduce production-grade auth/session management.
-3. Add waitlist and membership flows.
+3. Add waitlist, membership, and attendance flows.
 4. Decide whether to keep Next.js as the combined UI/backend surface or extract a dedicated backend service.

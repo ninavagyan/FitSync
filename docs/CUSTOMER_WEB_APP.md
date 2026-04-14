@@ -29,10 +29,44 @@ Supporting form routes:
 - browse upcoming trainings
 - register a customer account
 - sign in as customer
-- book available trainings
+- navigate schedule by month
+- open a training popup from the calendar
+- book available trainings from the popup
 - cancel active bookings
-- review their booking list
+- review upcoming and historical bookings
 - log out
+
+## Current schedule experience
+
+The schedule is no longer a flat list.
+
+Current behavior:
+
+- monthly calendar view
+- previous, current, and next month navigation
+- day cells with scheduled trainings
+- popup training details instead of inline expansion
+- booking and cancellation actions inside the popup
+- current month state preserved after booking and cancellation
+- keyboard close support with `Esc`
+
+Main files for this flow:
+
+- [schedule page](/Users/nina/Documents/Codex/FirstProject/admin-web/app/schedule/page.tsx)
+- [calendar modal component](/Users/nina/Documents/Codex/FirstProject/admin-web/components/customer-schedule-calendar.tsx)
+- [book route](/Users/nina/Documents/Codex/FirstProject/admin-web/app/api/site/trainings/[trainingId]/book/route.ts)
+- [cancel route](/Users/nina/Documents/Codex/FirstProject/admin-web/app/api/site/trainings/[trainingId]/cancel/route.ts)
+
+## Current bookings experience
+
+The customer bookings page now separates:
+
+- upcoming active bookings
+- past or cancelled booking history
+
+Main file:
+
+- [bookings page](/Users/nina/Documents/Codex/FirstProject/admin-web/app/bookings/page.tsx)
 
 ## Current implementation approach
 
@@ -46,6 +80,7 @@ Main files:
 - [schedule page](/Users/nina/Documents/Codex/FirstProject/admin-web/app/schedule/page.tsx)
 - [bookings page](/Users/nina/Documents/Codex/FirstProject/admin-web/app/bookings/page.tsx)
 - [customer web session](/Users/nina/Documents/Codex/FirstProject/admin-web/lib/server/customer-web-session.ts)
+- [styles](/Users/nina/Documents/Codex/FirstProject/admin-web/app/globals.css)
 
 ## Session model
 
